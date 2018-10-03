@@ -23,11 +23,11 @@ bool CCanvas::init(int w, int h, int f)
 	m_height = h;
 	m_pitch = w * f;
 	m_lengh = m_width * m_pitch;
-	buffer = new unsigned char[m_width*m_height*m_pitch];
+	buffer = new unsigned char[m_width*m_height*m_format];
 	return true;
 }
 
-void CCanvas::set(float U, float V, const unsigned char *Destiny)
+void CCanvas::set(float U, float V, const unsigned char *pSource)
 { 
 	
 	if (U > 1.0f|| U< 0.0f || V > 1.0f || V < 0.0f)
@@ -36,11 +36,11 @@ void CCanvas::set(float U, float V, const unsigned char *Destiny)
 	}
 	else
 	{
-		int x = m_height * U;
-		int y = m_width *  V;
+		int x = m_width * U;
+		int y = m_height *  V;
 		for (int i = 0; i<m_format; i++)
 		{
-		  buffer[this->jump(x, y)+i] = Destiny[i];
+		  buffer[this->jump(x, y)+i] = pSource[i];
 		}
 	}
 }
@@ -53,8 +53,8 @@ void CCanvas::get(float U, float V, unsigned char *Result)
 	}
 	else
 	{
-		int x = U * m_height;
-		int y = V * m_width;
+		int x = U * m_width;
+		int y = V * m_height;
 		for (int i = 0; i < m_format; i++)
 		{
 			Result[i] = buffer[this->jump(x, y)+i];
@@ -62,6 +62,7 @@ void CCanvas::get(float U, float V, unsigned char *Result)
 	}
 		
 }
+
 
 void CCanvas::drawLine(float Ui, float Vi, float Uf, float Vf)
 {
@@ -73,10 +74,12 @@ void CCanvas::drawLine(float Ui, float Vi, float Uf, float Vf)
 
 	else
 	{
-		int xi = Ui * m_height;
-		int yi = Vi * m_width;
-		int xf = Uf * m_height;
-		int yf = Vf * m_width;
+		int xi = Ui * m_width;
+		int yi = Vi * m_height;
+		int xf = Uf * m_width;
+		int yf = Vf * m_height;
+
+
 		int delta;
 
 		if (Ui - Uf == 0)
@@ -116,13 +119,20 @@ void CCanvas::drawLine(float Ui, float Vi, float Uf, float Vf)
 
 int CCanvas::jump(int x, int y)
 {
-	int salto = (x * m_pitch) + (y * m_format);
+	int salto = (y * m_pitch) + (x * m_format);
 	return salto;
 }
 
-void CCanvas::copy(void * dest, const void * src, size_t siz)
+//Sin terminar.
+void CCanvas::copy(CCanvas * dest, const CCanvas * src)
 {
-	memcpy(dest, src, siz);
+
+	for (int i = 0; i < src->buffer[dest->m_width*dest->m_height*dest->m_format]; i++)
+	{
+		dest->buffer[i] = src->buffer[i];
+	}
+
+
 }
 
 
