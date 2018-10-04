@@ -2,7 +2,7 @@
 #include "CCanvas.h"
 #include "string.h"
 #include <iostream>
-
+#include "math.h"
 using namespace std;
 
 CCanvas::CCanvas()
@@ -38,10 +38,20 @@ void CCanvas::set(float U, float V, const unsigned char *pSource)
 	{
 		int x = m_width * U;
 		int y = m_height *  V;
+		int salto = jump(x, y);
 		for (int i = 0; i<m_format; i++)
 		{
-		  buffer[this->jump(x, y)+i] = pSource[i];
+		  buffer[salto+i] = pSource[i];
 		}
+	}
+}
+
+void CCanvas::set(int x, int y, unsigned char info)
+{
+	int salto = jump(x, y);
+	for (int i = 0; i < m_format; i++)
+	{
+		buffer[salto + i] = info;
 	}
 }
 
@@ -55,12 +65,19 @@ void CCanvas::get(float U, float V, unsigned char *Result)
 	{
 		int x = U * m_width;
 		int y = V * m_height;
+		int salto = jump(x, y);
 		for (int i = 0; i < m_format; i++)
 		{
-			Result[i] = buffer[this->jump(x, y)+i];
+			Result[i] = buffer[salto+i];
 		}
 	}
 		
+}
+
+int CCanvas::get(int x, int y)
+{
+	int salto = jump(x, y);
+	return salto;
 }
 
 
@@ -92,9 +109,11 @@ void CCanvas::drawLine(float Ui, float Vi, float Uf, float Vf)
 
 		if (isHorizontal)
 		{
+			int salto = jump(xi, yi);
+
 			for (int i = 0; i<delta; i++)
 			{
-				buffer[jump(xi,yi)+ i] = '1';
+				buffer[salto + i] = '1';
 			}
 		}
 		else
@@ -102,7 +121,7 @@ void CCanvas::drawLine(float Ui, float Vi, float Uf, float Vf)
 			int puntoInicial = jump(xi, yi);
 			int puntoFinal = jump(xf, yf);
 
-			for (int i = puntoInicial; i< puntoFinal ; i++)
+			for (int i = puntoInicial; i < puntoFinal ; i++)
 			{
 				puntoInicial = i;
 
@@ -110,6 +129,7 @@ void CCanvas::drawLine(float Ui, float Vi, float Uf, float Vf)
 				{
 					buffer[puntoInicial + j] = '1';
 				}
+
 				i += m_pitch-1;
 			}
 		}
@@ -136,32 +156,63 @@ void CCanvas::copy(CCanvas * dest, const CCanvas * src)
 }
 
 
-//Sin terminar.
-void CCanvas::drawLineMath(float Ui, float Vi, float Uf, float Vf)
+void CCanvas::drawLineMath(int Xi, int Yi, int Xf, int Yf, unsigned char c)
 {
-	if (Ui > 1.0f || Ui < 0.0f || Vi > 1.0f || Vi < 0.0f || Uf > 1.0f || Uf < 0.0f || Vf>1.0f || Vf < 0.0f)
-	{
-		cout << "Fuera de rango" << endl;
-	}
-	float deltaX = Ui - Uf;
-	float deltaY = Vi - Vf;
-	float m;
-	float magnitud;
-	int xi = m_height * Ui;
-	int yi = m_width * Vi;
-	int xf = m_height * Uf;
-	int yf = m_width * Vf;
-	
+
+	int deltaX = Xf - Xi;
+	int deltaY = Yf - Yi;
+	float m = 0;
 
 
-	if (deltaX > deltaY)
+	if (std::abs(deltaX) >= std::abs(deltaY))
 	{
-		m = deltaX / deltaY;
+		if (deltaX < 0)
+		{
+			std::swap(Xf, Xi);
+			std::swap(Yf, Yi);
+			deltaX = -deltaX;
+			deltaY = -deltaY;
+			m = deltaX / deltaY;
+		}
+		else
+		{
+			m = deltaX / deltaY;
+		}
+
+		float y = Yi;
+		for (int x = Xi; x < Xf; x++)
+		{
+			y += m;
+			set(x, round(y), c);
+		}
+
+
 	}
 	else
 	{
-		m = deltaY / deltaX;
+		if (deltaY < 0)
+		{
+			std::swap(Xf, Xi);
+			std::swap(Yf, Yi);
+			deltaX = -deltaX;
+			deltaY = -deltaY;
+			m = deltaY / deltaX;
+		}
+		else
+		{
+			m = deltaY / deltaX;
+		}
+
+		float x = Xi;
+		for (int y = Yi; y < Yf; y++)
+		{
+			x += m;
+			set(round(x), y, c);
+		}
 	}
+	
+	
+
 }
 
 
