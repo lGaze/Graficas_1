@@ -39,7 +39,7 @@ void CCanvas::set(float U, float V, const unsigned char *pSource)
 		int x = m_width * U;
 		int y = m_height *  V;
 		int salto = jump(x, y);
-		for (int i = 0; i<m_format; i++)
+		for (int i = 0; i < m_format; i++)
 		{
 		  buffer[salto+i] = pSource[i];
 		}
@@ -172,12 +172,8 @@ void CCanvas::drawLineMath(int Xi, int Yi, int Xf, int Yf, unsigned char c)
 			std::swap(Yf, Yi);
 			deltaX = -deltaX;
 			deltaY = -deltaY;
-			m = deltaX / deltaY;
 		}
-		else
-		{
-			m = deltaX / deltaY;
-		}
+		m = deltaY / deltaX;
 
 		float y = Yi;
 		for (int x = Xi; x < Xf; x++)
@@ -196,12 +192,8 @@ void CCanvas::drawLineMath(int Xi, int Yi, int Xf, int Yf, unsigned char c)
 			std::swap(Yf, Yi);
 			deltaX = -deltaX;
 			deltaY = -deltaY;
-			m = deltaY / deltaX;
 		}
-		else
-		{
-			m = deltaY / deltaX;
-		}
+		m = deltaX / deltaY;
 
 		float x = Xi;
 		for (int y = Yi; y < Yf; y++)
@@ -212,6 +204,66 @@ void CCanvas::drawLineMath(int Xi, int Yi, int Xf, int Yf, unsigned char c)
 	}
 	
 	
+
+}
+
+void CCanvas::drawLineBresenham(int Xi, int Yi, int Xf, int Yf, unsigned char c)
+{
+	int deltaX = Xf - Xi;
+	int deltaY = Yf - Yi;
+
+
+
+	if (std::abs(deltaX) >= std::abs(deltaY))
+	{
+		if (deltaX < 0)
+		{
+			std::swap(Xf, Xi);
+			std::swap(Yf, Yi);
+			deltaX = -deltaX;
+			deltaY = -deltaY;
+		}
+
+		int error = 0;
+		int y = Yi;
+		for (int x = Xi; x < Xf; x++)
+		{
+			error += deltaY * 2;
+			if (error >= deltaX)
+			{
+				error -= deltaX * 2;
+				y++;
+			}
+			set(x, y, c);
+		}
+
+
+	}
+	else
+	{
+		if (deltaY < 0)
+		{
+			std::swap(Xf, Xi);
+			std::swap(Yf, Yi);
+			deltaX = -deltaX;
+			deltaY = -deltaY;
+		}
+		
+
+		int error = 0;
+		int x = Xi;
+		for (int y = Yi; y < Yf; y++)
+		{
+			error += deltaX * 2;
+			if (error >= deltaY)
+			{
+				error -= deltaY * 2;
+				x++;
+			}
+			set(x, y, c);
+		}
+	}
+
 
 }
 
