@@ -36,8 +36,8 @@ void CCanvas::set(float U, float V, const unsigned char *pSource)
 	}
 	else
 	{
-		int x = m_width * U;
-		int y = m_height *  V;
+		int x = (m_width - 1) * U;
+		int y = (m_height - 1) *  V;
 		int salto = jump(x, y);
 		for (int i = 0; i < m_format; i++)
 		{
@@ -45,7 +45,7 @@ void CCanvas::set(float U, float V, const unsigned char *pSource)
 		}
 	}
 }
-
+ 
 void CCanvas::set(int x, int y, unsigned char info)
 {
 	int salto = jump(x, y);
@@ -53,6 +53,18 @@ void CCanvas::set(int x, int y, unsigned char info)
 	{
 		buffer[salto + i] = info;
 	}
+}
+
+void CCanvas::set(CVector coord, unsigned char * Destiny)
+{
+	int x = coord.getValueX();
+	int y = coord.getValueY();
+	int salto = jump(x, y);
+	for (int i = 0; i < m_format; i++)
+	{
+		buffer[salto + i] = Destiny[i];
+	}
+
 }
 
 void CCanvas::get(float U, float V, unsigned char *Result)
@@ -63,8 +75,8 @@ void CCanvas::get(float U, float V, unsigned char *Result)
 	}
 	else
 	{
-		int x = U * m_width;
-		int y = V * m_height;
+		int x = (m_width - 1) * U;
+		int y = (m_height - 1) *  V;
 		int salto = jump(x, y);
 		for (int i = 0; i < m_format; i++)
 		{
@@ -80,6 +92,16 @@ int CCanvas::get(int x, int y)
 	return salto;
 }
 
+void CCanvas::get(CVector coord, unsigned char * Result)
+{
+	int x = coord.getValueX();
+	int y = coord.getValueY();
+	int salto = jump(x, y);
+	for (int i = 0; i < m_format; i++)
+	{
+		Result[i] = buffer[salto + i];
+	}
+}
 
 void CCanvas::drawLine(float Ui, float Vi, float Uf, float Vf)
 {
@@ -91,11 +113,10 @@ void CCanvas::drawLine(float Ui, float Vi, float Uf, float Vf)
 
 	else
 	{
-		int xi = Ui * m_width;
-		int yi = Vi * m_height;
-		int xf = Uf * m_width;
-		int yf = Vf * m_height;
-
+		int xi = (m_width - 1) * Ui;
+		int yi = (m_height - 1) *  Vi;
+		int xf = (m_width - 1) * Uf;
+		int yf = (m_height - 1) *  Vf;
 
 		int delta;
 
@@ -143,18 +164,17 @@ int CCanvas::jump(int x, int y)
 	return salto;
 }
 
-//Sin terminar.
-void CCanvas::copy(CCanvas * dest, const CCanvas * src)
+void CCanvas::copy(CCanvas * dest)
 {
-
-	for (int i = 0; i < src->buffer[dest->m_width*dest->m_height*dest->m_format]; i++)
+	int destSize = dest->m_width * dest->m_height * dest->m_format;
+	unsigned char * result = new unsigned char[m_format];
+	for (int i = 0; i<destSize;)
 	{
-		dest->buffer[i] = src->buffer[i];
+		get(getCoords(i), result);
+		dest->set(getCoords(i), result);
+		i = i + m_format;
 	}
-
-
 }
-
 
 void CCanvas::drawLineMath(int Xi, int Yi, int Xf, int Yf, unsigned char c)
 {
@@ -265,6 +285,14 @@ void CCanvas::drawLineBresenham(int Xi, int Yi, int Xf, int Yf, unsigned char c)
 	}
 
 
+}
+
+CVector CCanvas::getCoords(int index)
+{
+	CVector coordenadas;
+	coordenadas.setValueX((index / m_width)/m_width);
+	coordenadas.setValueY((index % m_width)/m_height);
+	return coordenadas;
 }
 
 

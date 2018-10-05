@@ -1,4 +1,5 @@
 #pragma once
+#include "CVector.h"
 
 enum FORMATO
 {
@@ -30,7 +31,11 @@ public:
 	 *	Recibe cordenadas X y Y de tipo entero y la informacion a setear.
 	 */
 	void set(int x, int y, unsigned char info);
-
+	/**
+	 * Setea informacion dentro del buffer.
+	 * Recibe un vector y un puntero con la informacion a setear.
+	 */
+	void set(CVector coord, unsigned char * Destiny);
 	/** 
 	*	Obtiene la referencia de memoria del inicio del bloque.
 	*	Recibe cordenadas X y Y, recibe un puntero donde se va a guardar la informacion.
@@ -42,7 +47,11 @@ public:
 	 *	 Recibe cordenadas X y Y de tipo entero.
 	 */
 	int get(int x, int y);
-
+	/**
+	 *  Obtiene el bloque de memoria
+	 *	Recive un CVector y un puntero donde se guardara la informacion.
+	 */
+	void get(CVector coord, unsigned char * Result);
 	/** 
 	*	Dibuja una linea ya sea horizontal o vetical.
 	*   Recibe cordenadas del punto inicial y del punto final.
@@ -53,7 +62,7 @@ public:
 	*	Copia la informacion de un buffer a otro
 	*	Recibe un puntero de destino, un puntero constate del souce.
 	*/
-	void copy(CCanvas * dest, const CCanvas * src);
+	void copy(CCanvas * dest);
 
 	/** 
 	*  Calcula saltos en el buffer.
@@ -73,6 +82,11 @@ public:
 	 */
 	void drawLineBresenham(int Xi, int Yi, int Xf, int Yf, unsigned char c);
 	
+	/**
+	 *  Obtiene las cordenadas a partir de un indice.
+	 *	Recibe un indice entero.
+	 */
+	CVector getCoords(int index);
 
 	unsigned char * buffer;
 	
