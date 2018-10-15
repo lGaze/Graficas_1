@@ -1,2 +1,3 @@
 ﻿  Graficas_1.cpp
+c:\proyectos\graficas_1\graficas_1\graficas_1.cpp(27): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   Graficas_1.vcxproj -> C:\Proyectos\Graficas_1\x64\Debug\Graficas_1.exe

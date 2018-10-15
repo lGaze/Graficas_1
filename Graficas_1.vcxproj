@@ -152,11 +152,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CCanvas.h" />
+    <ClInclude Include="CPixel.h" />
     <ClInclude Include="CVector.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCanvas.cpp" />
+    <ClCompile Include="CPixel.cpp" />
     <ClCompile Include="CVector.cpp" />
     <ClCompile Include="Graficas_1.cpp" />
     <ClCompile Include="pch.cpp">

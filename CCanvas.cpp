@@ -21,9 +21,19 @@ bool CCanvas::init(int w, int h, int f)
 	m_format = f;
 	m_width = w;
 	m_height = h;
-	m_pitch = w * f;
+	m_pitch = w;
 	m_lengh = m_width * m_pitch;
-	buffer = new unsigned char[m_width*m_height*m_format];
+	*buffer = new CPixel(m_format)[m_width*m_height];
+	unsigned char * clearPix = new unsigned char[m_format];
+	for (int i = 0; i < m_format; i++)
+	{
+		clearPix[i] = '0';
+	}
+
+	for (int i = 0; i < m_width*m_height; i++)
+	{
+		buffer[i].setPixel(clearPix);
+	}
 	return true;
 }
 
@@ -49,10 +59,8 @@ void CCanvas::set(float U, float V, const unsigned char *pSource)
 void CCanvas::set(int x, int y, unsigned char info)
 {
 	int salto = jump(x, y);
-	for (int i = 0; i < m_format; i++)
-	{
-		buffer[salto + i] = info;
-	}
+	buffer[salto] = info;
+
 }
 
 void CCanvas::set(CVector coord, unsigned char * Destiny)
@@ -78,10 +86,7 @@ void CCanvas::get(float U, float V, unsigned char *Result)
 		int x = (m_width - 1) * U;
 		int y = (m_height - 1) *  V;
 		int salto = jump(x, y);
-		for (int i = 0; i < m_format; i++)
-		{
-			Result[i] = buffer[salto+i];
-		}
+		Result = &buffer[salto];
 	}
 		
 }

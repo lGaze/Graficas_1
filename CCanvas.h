@@ -1,5 +1,6 @@
 #pragma once
 #include "CVector.h"
+#include "CPixel.h"
 
 enum FORMATO
 {
@@ -8,6 +9,7 @@ enum FORMATO
 	R8G8 = 0x03,
 	R8 = 0x04,
 };
+
 class CCanvas
 {
 public:
@@ -18,7 +20,7 @@ public:
 	*  Inicializa las variables y el buffer.
 	*  Recibe un entero whidth , un entero height y un formato.
 	*/
-	bool init(int w, int h, int f);
+	bool init(int width, int height, int format);
 
 	/** 
 	*	Setea informacion dentro del buffer.
@@ -47,6 +49,7 @@ public:
 	 *	 Recibe cordenadas X y Y de tipo entero.
 	 */
 	int get(int x, int y);
+
 	/**
 	 *  Obtiene el bloque de memoria
 	 *	Recive un CVector y un puntero donde se guardara la informacion.
@@ -88,7 +91,13 @@ public:
 	 */
 	CVector getCoords(int index);
 
-	unsigned char * buffer;
+	int getW() { return m_width; }
+	int getH() { return m_height; }
+	int getP() { return m_pitch; }
+	int getL() { return m_lengh; }
+	int getF() { return m_format; }
+
+	CPixel * buffer;
 	
 private:
 
