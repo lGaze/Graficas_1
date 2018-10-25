@@ -22,166 +22,78 @@ bool CCanvas::init(int w, int h, int f)
 	m_width = w;
 	m_height = h;
 	m_pitch = w;
-	m_lengh = m_width * m_pitch;
 	*buffer = new CPixel(m_format)[m_width*m_height];
-	unsigned char * clearPix = new unsigned char[m_format];
-	for (int i = 0; i < m_format; i++)
-	{
-		clearPix[i] = '0';
-	}
-
 	for (int i = 0; i < m_width*m_height; i++)
 	{
-		buffer[i].setPixel(clearPix);
+		buffer[i].setChannel('R', '0');
+		buffer[i].setChannel('G', '0');
+		buffer[i].setChannel('B', '0');
+		buffer[i].setChannel('A', '0');
 	}
 	return true;
 }
 
-void CCanvas::set(float U, float V, const unsigned char *pSource)
-{ 
-	
-	if (U > 1.0f|| U< 0.0f || V > 1.0f || V < 0.0f)
+void CCanvas::drawLineHorizontal(int xi, int yi, int xf, int yf, unsigned char * RGBA)
+{
+	int delta;
+
+	if (xi - xf == 0)
 	{
-		cout << "Fuera de rango" << endl;
-	}
-	else
-	{
-		int x = (m_width - 1) * U;
-		int y = (m_height - 1) *  V;
-		int salto = jump(x, y);
-		for (int i = 0; i < m_format; i++)
+		int puntoInicial = jump(xi, yi);
+		int puntoFinal = jump(xf, yf);
+		delta = puntoFinal - puntoInicial;
+
+		for (int i = 0; i<delta; i++)
 		{
-		  buffer[salto+i] = pSource[i];
+			buffer[puntoInicial + i].setPixel(RGBA);
 		}
 	}
-}
- 
-void CCanvas::set(int x, int y, unsigned char info)
-{
-	int salto = jump(x, y);
-	buffer[salto] = info;
 
-}
-
-void CCanvas::set(CVector coord, unsigned char * Destiny)
-{
-	int x = coord.getValueX();
-	int y = coord.getValueY();
-	int salto = jump(x, y);
-	for (int i = 0; i < m_format; i++)
-	{
-		buffer[salto + i] = Destiny[i];
-	}
-
-}
-
-void CCanvas::get(float U, float V, unsigned char *Result)
-{
-	if (U > 1.0f || U < 0.0f || V > 1.0f || V < 0.0f)
-	{
-		cout << "Fuera de rango" << endl;
-	}
 	else
 	{
-		int x = (m_width - 1) * U;
-		int y = (m_height - 1) *  V;
-		int salto = jump(x, y);
-		Result = &buffer[salto];
-	}
 		
-}
-
-int CCanvas::get(int x, int y)
-{
-	int salto = jump(x, y);
-	return salto;
-}
-
-void CCanvas::get(CVector coord, unsigned char * Result)
-{
-	int x = coord.getValueX();
-	int y = coord.getValueY();
-	int salto = jump(x, y);
-	for (int i = 0; i < m_format; i++)
-	{
-		Result[i] = buffer[salto + i];
 	}
 }
 
-void CCanvas::drawLine(float Ui, float Vi, float Uf, float Vf)
+void CCanvas::drawLineVertical(int xi, int yi, int xf, int yf, unsigned char * RGBA)
 {
-	bool isHorizontal = false;
-	if (Ui > 1.0f || Ui < 0.0f || Vi > 1.0f || Vi < 0.0f || Uf > 1.0f || Uf < 0.0f || Vf>1.0f || Vf < 0.0f)
+	int puntoInicial = jump(xi, yi);
+	int puntoFinal = jump(xf, yf);
+
+	for (int i = puntoInicial; i == puntoFinal; )
 	{
-		cout << "Fuera de rango" << endl;
+		buffer[i].setPixel(RGBA);
+		i += m_pitch;
 	}
-
-	else
-	{
-		int xi = (m_width - 1) * Ui;
-		int yi = (m_height - 1) *  Vi;
-		int xf = (m_width - 1) * Uf;
-		int yf = (m_height - 1) *  Vf;
-
-		int delta;
-
-		if (Ui - Uf == 0)
-		{
-			isHorizontal = true;
-			int puntoInicial = jump(xi, yi);
-			int puntoFinal = jump(xf, yf);
-			delta = puntoFinal - puntoInicial;
-		}
-
-		if (isHorizontal)
-		{
-			int salto = jump(xi, yi);
-
-			for (int i = 0; i<delta; i++)
-			{
-				buffer[salto + i] = '1';
-			}
-		}
-		else
-		{
-			int puntoInicial = jump(xi, yi);
-			int puntoFinal = jump(xf, yf);
-
-			for (int i = puntoInicial; i < puntoFinal ; i++)
-			{
-				puntoInicial = i;
-
-				for (int j = 0; j < m_format; j++)
-				{
-					buffer[puntoInicial + j] = '1';
-				}
-
-				i += m_pitch-1;
-			}
-		}
-	}
-	
 }
 
 int CCanvas::jump(int x, int y)
 {
-	int salto = (y * m_pitch) + (x * m_format);
+	int salto = (y * m_width) + x;
 	return salto;
 }
 
 void CCanvas::copy(CCanvas * dest)
 {
-	int destSize = dest->m_width * dest->m_height * dest->m_format;
+	int destSize = dest->m_width * dest->m_height;
 	unsigned char * result = new unsigned char[m_format];
-	for (int i = 0; i<destSize;)
+	for (int i = 0; i < destSize; i++)
 	{
-		get(getCoords(i), result);
-		dest->set(getCoords(i), result);
-		i = i + m_format;
+		int destx = dest->getCoords(i).getValueX();
+		int desty = dest->getCoords(i).getValueY();
+
+		float u = destx / float(dest->m_width - 1);
+		float v = desty / float(dest->m_height - 1);
+
+		int x = u * (m_width - 1);
+		int y = v * (m_height - 1);
+		int iSrc = this->jump(x, y);
+
+		memcpy(&dest->buffer[i], &this->buffer[iSrc], sizeof(CPixel));
 	}
 }
 
-void CCanvas::drawLineMath(int Xi, int Yi, int Xf, int Yf, unsigned char c)
+void CCanvas::drawLineMath(int Xi, int Yi, int Xf, int Yf, unsigned char * RGBA)
 {
 
 	int deltaX = Xf - Xi;
@@ -204,9 +116,8 @@ void CCanvas::drawLineMath(int Xi, int Yi, int Xf, int Yf, unsigned char c)
 		for (int x = Xi; x < Xf; x++)
 		{
 			y += m;
-			set(x, round(y), c);
+			buffer[jump(x, round(y))].setPixel(RGBA);
 		}
-
 
 	}
 	else
@@ -224,7 +135,7 @@ void CCanvas::drawLineMath(int Xi, int Yi, int Xf, int Yf, unsigned char c)
 		for (int y = Yi; y < Yf; y++)
 		{
 			x += m;
-			set(round(x), y, c);
+			buffer[jump(round(x),y)].setPixel(RGBA);
 		}
 	}
 	
@@ -232,7 +143,7 @@ void CCanvas::drawLineMath(int Xi, int Yi, int Xf, int Yf, unsigned char c)
 
 }
 
-void CCanvas::drawLineBresenham(int Xi, int Yi, int Xf, int Yf, unsigned char c)
+void CCanvas::drawLineBresenham(int Xi, int Yi, int Xf, int Yf, unsigned char * RGBA)
 {
 	int deltaX = Xf - Xi;
 	int deltaY = Yf - Yi;
@@ -259,7 +170,7 @@ void CCanvas::drawLineBresenham(int Xi, int Yi, int Xf, int Yf, unsigned char c)
 				error -= deltaX * 2;
 				y++;
 			}
-			set(x, y, c);
+			buffer[jump(x, y)].setPixel(RGBA);
 		}
 
 
@@ -285,7 +196,7 @@ void CCanvas::drawLineBresenham(int Xi, int Yi, int Xf, int Yf, unsigned char c)
 				error -= deltaY * 2;
 				x++;
 			}
-			set(x, y, c);
+			buffer[jump(x, y)].setPixel(RGBA);
 		}
 	}
 
@@ -298,6 +209,36 @@ CVector CCanvas::getCoords(int index)
 	coordenadas.setValueX((index / m_width)/m_width);
 	coordenadas.setValueY((index % m_width)/m_height);
 	return coordenadas;
+}
+
+void CCanvas::get(float U, float V, unsigned char * Result)
+{
+	if (U > 1.0f || U < 0.0f || V > 1.0f || V < 0.0f)
+	{
+		cout << "Fuera de rango" << endl;
+	}
+	else
+	{
+		int x = (m_width - 1) * U;
+		int y = (m_height - 1) *  V;
+		int salto = jump(x, y);
+		Result = buffer[salto].getPixel();
+	}
+}
+
+void CCanvas::set(float U, float V, unsigned char * RGBA)
+{
+	if (U > 1.0f || U< 0.0f || V > 1.0f || V < 0.0f)
+	{
+		cout << "Fuera de rango" << endl;
+	}
+	else
+	{
+		int x = (m_width - 1) * U;
+		int y = (m_height - 1) *  V;
+		int salto = jump(x, y);
+		buffer[salto].setPixel(RGBA);
+	}
 }
 
 

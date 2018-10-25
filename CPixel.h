@@ -1,6 +1,14 @@
 #pragma once
 #include <iostream>
 
+enum FORMAT
+{
+	R8G8B8A8 = 0x01,
+	R8G8B8 = 0x02,
+	R8G8 = 0x03,
+	R8 = 0x04,
+};
+
 class CPixel
 {
 public:
@@ -19,7 +27,7 @@ private:
 	int m_format;
 	union 
 	{
-		unsigned char * RGBA[4];
+		unsigned char RGBA[4];
 		struct 
 		{
 			unsigned char R;

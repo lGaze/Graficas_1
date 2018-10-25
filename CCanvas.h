@@ -2,109 +2,137 @@
 #include "CVector.h"
 #include "CPixel.h"
 
-enum FORMATO
-{
-	R8G8B8A8 = 0x01,
-	R8G8B8 = 0x02,
-	R8G8 = 0x03,
-	R8 = 0x04,
-};
 
 class CCanvas
 {
 public:
+
+	/**
+	 * @brief Constructor default de CCanvas 
+	 */
 	CCanvas();
+
+	/**
+	* @brief destructor de CCanvas
+	*/
 	~CCanvas();
 
 	/** 
-	*  Inicializa las variables y el buffer.
-	*  Recibe un entero whidth , un entero height y un formato.
+	* @brief Inicializa las variables y el buffer.
+	* @param Representa el largo de el buffer.
+	* @param Representa el alto de el buffer.
+	* @param Representa el formato de los pixeles.
+	* @return Un valor booleano para verificar la inicializacion.
 	*/
 	bool init(int width, int height, int format);
 
-	/** 
-	*	Setea informacion dentro del buffer.
-	*	Recibe cordenadas X y Y, recibe tambien un puntero que contiene la informacion a setear.
-	*/
-	void set(float x, float y, const unsigned char *Destiny);
+	/**
+	 * @brief Dibuja una linea Horizontal
+	 * @param Representa la coordenada x inicial.
+	 * @param Representa la coordenada y inicial.
+	 * @param Representa la coordenada y final.
+	 * @param Representa la coordenada y final.
+	 * @param Representa el color de la linea a dibujar.
+	 */
+	void drawLineHorizontal(int xi, int yi, int xf, int yf, unsigned char * RGBA);  
 
 	/**
-	 *  Setea informacion en la posicion exacta del buffer.
-	 *	Recibe cordenadas X y Y de tipo entero y la informacion a setear.
+	 * @brief Dibuja una linea Vertical
+	 * @param Representa la coordenada X inicial.
+	 * @param Representa la coordenada Y inicial.
+	 * @param Representa la coordenada X final.
+	 * @param Representa la coordenada Y final.
+	 * @param Representa el color de la linea a dibujar.
 	 */
-	void set(int x, int y, unsigned char info);
-	/**
-	 * Setea informacion dentro del buffer.
-	 * Recibe un vector y un puntero con la informacion a setear.
-	 */
-	void set(CVector coord, unsigned char * Destiny);
-	/** 
-	*	Obtiene la referencia de memoria del inicio del bloque.
-	*	Recibe cordenadas X y Y, recibe un puntero donde se va a guardar la informacion.
-	*/
-	void get(float x, float y,  unsigned char *Result);
-
-	/**
-	 *	 Obtine la posicion exacta en el buffer
-	 *	 Recibe cordenadas X y Y de tipo entero.
-	 */
-	int get(int x, int y);
-
-	/**
-	 *  Obtiene el bloque de memoria
-	 *	Recive un CVector y un puntero donde se guardara la informacion.
-	 */
-	void get(CVector coord, unsigned char * Result);
-	/** 
-	*	Dibuja una linea ya sea horizontal o vetical.
-	*   Recibe cordenadas del punto inicial y del punto final.
-	*/
-	void drawLine(float xi, float yi, float xf, float yf); 
+	void drawLineVertical(int xi, int yi, int xf, int yf, unsigned char * RGBA);
 
 	/** 
-	*	Copia la informacion de un buffer a otro
-	*	Recibe un puntero de destino, un puntero constate del souce.
+	* @brief Copia la informacion de un buffer a otro.
+	* @param Representa el lugar a donde se copiara la informacion.
 	*/
 	void copy(CCanvas * dest);
 
 	/** 
-	*  Calcula saltos en el buffer.
-	*  Recibe cordenadas X,Y y regresa el salto 
+	* @brief Calcula saltos en el buffer.
+	* @param Representa la coordenada en X dentro del buffer.
+	* @param Representa la coordenada en Y dentro del buffer.
+	* @return Un inidce que representa el salto.
 	*/
 	int jump(int x, int y);
 
 	/**
-	 *	Linea matematica.
-	 *	Recibe cordenas de un punto inicial y un punto final, y setea la informacion que recibe.
+	 * @brief Dibuja una linea calculada a partir de la formula matematica.
+	 * @param Representa la coordenada X inicial.
+	 * @param Representa la coordenada Y inicial.
+	 * @param Representa la coordenada X final.
+	 * @param Representa la coordenada Y final.
+	 * @param Representa el color de la linea a dibujar.
 	 */
-	void drawLineMath(int Xi, int Yi, int Xf, int Yf, unsigned char c);
+	void drawLineMath(int Xi, int Yi, int Xf, int Yf, unsigned char * RGBA);
 
 	/**
-	 *	Linea de Bresenham.
-	 *	Recibe cordenas de un punto inicial y un punto final, y setea la informacion que recibe.
+	 * @brief Dibuja una linea de Bresenham.
+	 * @param Representa la coordenada X inicial.
+	 * @param Representa la coordenada Y inicial.
+	 * @param Representa la coordenada X final.
+	 * @param Representa la coordenada Y final.
+	 * @param Representa el color de la linea a dibujar.
 	 */
-	void drawLineBresenham(int Xi, int Yi, int Xf, int Yf, unsigned char c);
+	void drawLineBresenham(int Xi, int Yi, int Xf, int Yf, unsigned char * RGBA);
 	
 	/**
-	 *  Obtiene las cordenadas a partir de un indice.
-	 *	Recibe un indice entero.
+	 * @brief Obtiene las coordenadas dentro de un buffer a partir de un indice.
+	 * @param Representa el indice de donde se scaran las coordenadas.
+	 * @return Un vector con las coordenadas. 
 	 */
 	CVector getCoords(int index);
 
+	/**
+	 * @brief Obtiene el largo de el buffer.
+	 * @return Un valor entero que representa el largo del buffer.
+	 */
 	int getW() { return m_width; }
+
+	/**
+	 * @brief Obtiene el alto de el buffer.
+	 * @return Un valor entero que representa el largo del buffer.
+	 */
 	int getH() { return m_height; }
+
+	/**
+	 * @brief Obtiene el pitch.
+	 * @return Un valor entero que representa el pitch.
+	 */
 	int getP() { return m_pitch; }
-	int getL() { return m_lengh; }
+
+	/**
+	 * @brief Obtiene el formato.
+	 * @return Un valor entero que representa el formto.
+	 */
 	int getF() { return m_format; }
 
-	CPixel * buffer;
-	
+	/**
+	 * @brief Obtiene un pixel por medio de coordenadas UV.
+	 * @param Representa la coordenada U dentro del buffer.
+	 * @param Representa la coordenada V dentro del buffer.
+	 * @param Representa el lugar donde se guardará el pixel.
+	 */
+	void get(float U, float V, unsigned char * Result);
+
+	/**
+	 * @brief Setea informacion en las coordenadas UV deseadas.
+	 * @param Representa la coordenada U dentro del buffer.
+	 * @param Representa la coordenada V dentro del buffer.
+	 * @param Representa la informacion a setear.
+	 */
+	void set(float U, float V, unsigned char * RGBA);
+
 private:
 
+	CPixel * buffer;
 	int m_width;
 	int m_height;
 	int m_pitch;
-	int m_lengh;
 	int m_format;
 };
 

@@ -4,6 +4,8 @@
 
 CPixel::CPixel(int format)
 {
+	m_format = format;
+	
 }
 
 CPixel::~CPixel()
@@ -36,7 +38,7 @@ unsigned char CPixel::getChannel(char channel)
 
 unsigned char * CPixel::getPixel()
 {
-	return *RGBA;
+	return RGBA;
 }
 
 int CPixel::getColor()
@@ -66,14 +68,15 @@ void CPixel::setChannel(char channel, unsigned char info)
 
 void CPixel::setPixel(unsigned char * Pix)
 {
-	this->RGBA[0] = &Pix[0];
-	this->RGBA[1] = &Pix[1];
-	this->RGBA[2] = &Pix[2];
-	this->RGBA[3] = &Pix[3];
+	for (int i = 0; i < m_format; i++)
+	{
+		RGBA[i] = Pix[i];
+	}
 }
 
 void CPixel::setColor(int Color)
 {
 	Color = Color;
 }
+
 

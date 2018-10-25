@@ -152,13 +152,23 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CCanvas.h" />
+    <ClInclude Include="CDevice.h" />
+    <ClInclude Include="CDeviceContext.h" />
+    <ClInclude Include="CManager.h" />
     <ClInclude Include="CPixel.h" />
+    <ClInclude Include="CPixel32f.h" />
+    <ClInclude Include="CSwapChain.h" />
     <ClInclude Include="CVector.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCanvas.cpp" />
+    <ClCompile Include="CDevice.cpp" />
+    <ClCompile Include="CDeviceContext.cpp" />
+    <ClCompile Include="CManager.cpp" />
     <ClCompile Include="CPixel.cpp" />
+    <ClCompile Include="CPixel32f.cpp" />
+    <ClCompile Include="CSwapChain.cpp" />
     <ClCompile Include="CVector.cpp" />
     <ClCompile Include="Graficas_1.cpp" />
     <ClCompile Include="pch.cpp">
