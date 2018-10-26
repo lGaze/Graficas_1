@@ -13,7 +13,9 @@ public:
 	HRESULT GetBuffer(UINT Buffer, REFIID riid, void **ppSurface);
 	HRESULT Present(UINT SyncInterval, UINT Flags);
 
+	inline IDXGISwapChain ** getSwapChain() { return &m_pSwapChain; };
+
 private:
-	IDXGISwapChain * m_pSwapChain = NULL;
+	IDXGISwapChain * m_pSwapChain = nullptr;
 };
 

@@ -42,6 +42,9 @@
     <ClInclude Include="CSwapChain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CTexture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -72,6 +75,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CSwapChain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CTexture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
