@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "CSwapChain.h"
 
 
@@ -18,10 +17,10 @@ void CSwapChain::ReleaseSwapChain()
 
 HRESULT CSwapChain::GetBuffer(UINT Buffer, REFIID riid, void ** ppSurface)
 {
-	m_pSwapChain->GetBuffer(Buffer, riid, ppSurface);
+	return m_pSwapChain->GetBuffer(Buffer, riid, ppSurface);
 }
 
 HRESULT CSwapChain::Present(UINT SyncInterval, UINT Flags)
 {
-	m_pSwapChain->Present(SyncInterval, Flags);
+	return m_pSwapChain->Present(SyncInterval, Flags);
 }

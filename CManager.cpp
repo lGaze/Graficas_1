@@ -1,4 +1,3 @@
-#include "pch.h"
 #include "CManager.h"
 
 
@@ -17,11 +16,12 @@ void CManager::CleanupDevice()
 	swapChain.ReleaseSwapChain();
 }
 
+/*
 CTexture * CManager::CreateRenderTargeFromBackBuffer(UINT backBufferIndex)
 {
 	CTexture * texture = new CTexture();
 	HRESULT hr = GetBuffer(
-		backBufferIndex, __uuidof(ID3D11Texture2D), 
+		backBufferIndex, __uuidof(ID3D11Texture2D),
 		(LPVOID*)&texture->m_pTexure2D);
 	if (FAILED(hr)) { return nullptr; }
 
@@ -68,14 +68,15 @@ CTexture * CManager::CreateDepthStencil(UINT width, UINT height)
 }
 
 CTexture * CManager::CreateTextureFromFile(
-	ID3D11Device * pDevice, 
+	ID3D11Device * pDevice,
 	LPCWSTR pSrcFile)
 {
 	CTexture * texture = new CTexture();
 	D3DX11CreateShaderResourceViewFromFile(pDevice, pSrcFile, NULL, NULL, &texture->m_pTextureRV, NULL);
 
-}
+}*/
 
+/*
 HRESULT CManager::InitDevice()
 {
 	HRESULT hr = S_OK;
@@ -116,28 +117,28 @@ HRESULT CManager::InitDevice()
 	if (FAILED(hr))
 		return hr;
 
-	 /* RenderTarget
+	 / * RenderTarget
 
 	ID3D11Texture2D* pBackBuffer = NULL;
 	hr = GetBuffer(0, __uuidof (ID3D11Texture2D), (LPVOID *)&pBackBuffer);
 	if (FAILED(hr))
 		return hr;
 
-	*/
+	* /
 
-	/* Depth Stencil Texture
+	/ * Depth Stencil Texture
 
-	*/
+	* /
 
-	/* Depth Stencil View
+	/ * Depth Stencil View
 
-	*/
+	* /
 
 
-}
+}*/
 
 HRESULT CManager::CreateRenderTargetView(
-	ID3D11Resource * pResource, 
+	ID3D11Resource * pResource,
 	const D3D11_RENDER_TARGET_VIEW_DESC * pDesc,
 	ID3D11RenderTargetView ** ppRTView)
 {
@@ -145,25 +146,25 @@ HRESULT CManager::CreateRenderTargetView(
 }
 
 HRESULT CManager::CreateTexture2D(
-	const D3D11_TEXTURE2D_DESC * pDesc, 
-	const D3D11_SUBRESOURCE_DATA * pInitialData, 
+	const D3D11_TEXTURE2D_DESC * pDesc,
+	const D3D11_SUBRESOURCE_DATA * pInitialData,
 	ID3D11Texture2D ** ppTexture2D)
 {
 	return device.CreateTexture2D(pDesc, pInitialData, ppTexture2D);
 }
 
 HRESULT CManager::CreateDepthStencilView(
-	ID3D11Resource * pResource, 
-	const D3D11_DEPTH_STENCIL_VIEW_DESC * pDesc, 
+	ID3D11Resource * pResource,
+	const D3D11_DEPTH_STENCIL_VIEW_DESC * pDesc,
 	ID3D11DepthStencilView ** ppDepthStencilView)
 {
 	return device.CreateDepthStencilView(pResource, pDesc, ppDepthStencilView);
 }
 
 HRESULT CManager::CreateVertexShader(
-	const void * pShaderBytecode, 
+	const void * pShaderBytecode,
 	SIZE_T BytecodeLength,
-	ID3D11ClassLinkage * pClassLinkage, 
+	ID3D11ClassLinkage * pClassLinkage,
 	ID3D11VertexShader ** ppVertexShader)
 {
 	return device.CreateVertexShader(
@@ -171,13 +172,13 @@ HRESULT CManager::CreateVertexShader(
 		BytecodeLength,
 		pClassLinkage,
 		ppVertexShader);
-	
+
 }
 
 HRESULT CManager::CreateInputLayout(
-	const D3D11_INPUT_ELEMENT_DESC * pInputElementDescs, 
-	UINT NumElements, 
-	const void * pShaderBytecodeWithInputSignature, 
+	const D3D11_INPUT_ELEMENT_DESC * pInputElementDescs,
+	UINT NumElements,
+	const void * pShaderBytecodeWithInputSignature,
 	SIZE_T BytecodeLength,
 	ID3D11InputLayout ** ppInputLayout)
 {
@@ -190,8 +191,8 @@ HRESULT CManager::CreateInputLayout(
 }
 
 HRESULT CManager::CreatePixelShader(
-	const void * pShaderBytecode, 
-	SIZE_T BytecodeLength, 
+	const void * pShaderBytecode,
+	SIZE_T BytecodeLength,
 	ID3D11ClassLinkage * pClassLinkage,
 	ID3D11PixelShader ** ppPixelShader)
 {
@@ -211,7 +212,7 @@ HRESULT CManager::CreateBuffer(
 }
 
 HRESULT CManager::CreateSamplerState(
-	const D3D11_SAMPLER_DESC * pSamplerDesc, 
+	const D3D11_SAMPLER_DESC * pSamplerDesc,
 	ID3D11SamplerState ** ppSamplerState)
 {
 	return device.CreateSamplerState(pSamplerDesc, ppSamplerState);
@@ -219,8 +220,8 @@ HRESULT CManager::CreateSamplerState(
 }
 
 HRESULT CManager::GetBuffer(
-	UINT Buffer, 
-	REFIID riid, 
+	UINT Buffer,
+	REFIID riid,
 	void ** ppSurface)
 {
 	return swapChain.GetBuffer(Buffer, riid, ppSurface);
@@ -232,15 +233,15 @@ HRESULT CManager::Present(UINT SyncInterval, UINT Flags)
 }
 
 void CManager::OMSetRenderTargets(
-	UINT NumViews, 
-	ID3D11RenderTargetView * const * ppRenderTargetViews, 
+	UINT NumViews,
+	ID3D11RenderTargetView * const * ppRenderTargetViews,
 	ID3D11DepthStencilView * pDepthStencilView)
 {
 	deviceContext.OMSetRenderTargets(NumViews, ppRenderTargetViews, pDepthStencilView);
 }
 
 void CManager::RSSetViewports(
-	UINT NumViewports, 
+	UINT NumViewports,
 	const D3D11_VIEWPORT * pViewports)
 {
 	deviceContext.RSSetViewports(NumViewports, pViewports);
@@ -252,91 +253,91 @@ void CManager::IASetInputLayout(ID3D11InputLayout * pInputLayout)
 }
 
 void CManager::IASetVertexBuffers(
-	UINT StartSlot, UINT NumBuffers, 
-	ID3D11Buffer * const * ppVertexBuffers, 
-	const UINT * pStrides, 
+	UINT StartSlot, UINT NumBuffers,
+	ID3D11Buffer * const * ppVertexBuffers,
+	const UINT * pStrides,
 	const UINT * pOffsets)
 {
-   deviceContext.IASetVertexBuffers(StartSlot, NumBuffers, ppVertexBuffers, pStrides, pOffsets);
+	deviceContext.IASetVertexBuffers(StartSlot, NumBuffers, ppVertexBuffers, pStrides, pOffsets);
 }
 
 void CManager::IASetIndexBuffer(
 	ID3D11Buffer * pIndexBuffer,
-	DXGI_FORMAT Format, 
+	DXGI_FORMAT Format,
 	UINT Offset)
 {
-   deviceContext.IASetIndexBuffer(pIndexBuffer, Format, Offset);
+	deviceContext.IASetIndexBuffer(pIndexBuffer, Format, Offset);
 }
 
 void CManager::IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY Topology)
 {
-   deviceContext.IASetPrimitiveTopology(Topology);
+	deviceContext.IASetPrimitiveTopology(Topology);
 }
 
 void CManager::UpdateSubresource(
-	ID3D11Resource * pDstResource, 
-	UINT DstSubresource, 
-	const D3D11_BOX * pDstBox, 
-	const void * pSrcData, 
-	UINT SrcRowPitch, 
+	ID3D11Resource * pDstResource,
+	UINT DstSubresource,
+	const D3D11_BOX * pDstBox,
+	const void * pSrcData,
+	UINT SrcRowPitch,
 	UINT SrcDepthPitch)
 {
-   deviceContext.UpdateSubresource(pDstResource, DstSubresource, pDstBox, pSrcData, SrcRowPitch, SrcDepthPitch);
+	deviceContext.UpdateSubresource(pDstResource, DstSubresource, pDstBox, pSrcData, SrcRowPitch, SrcDepthPitch);
 }
 
 void CManager::ClearRenderTargetView(
-	ID3D11RenderTargetView * pRenderTargetView, 
+	ID3D11RenderTargetView * pRenderTargetView,
 	const FLOAT ColorRGBA[4])
 {
-   deviceContext.ClearRenderTargetView(pRenderTargetView, ColorRGBA);
+	deviceContext.ClearRenderTargetView(pRenderTargetView, ColorRGBA);
 }
 
 void CManager::ClearDepthStencilView(
 	ID3D11DepthStencilView * pDepthStencilView,
-	UINT ClearFlags, 
-	FLOAT Depth, 
+	UINT ClearFlags,
+	FLOAT Depth,
 	UINT8 Stencil)
 {
-   deviceContext.ClearDepthStencilView(
-	   pDepthStencilView, 
-	   ClearFlags, 
-	   Depth, 
-	   Stencil);
+	deviceContext.ClearDepthStencilView(
+		pDepthStencilView,
+		ClearFlags,
+		Depth,
+		Stencil);
 }
 
 void CManager::VSSetShader(
 	ID3D11VertexShader * pVertexShader,
-	ID3D11ClassInstance * const * ppClassInstances, 
+	ID3D11ClassInstance * const * ppClassInstances,
 	UINT NumClassInstances)
 {
-   deviceContext.VSSetShader(
-	   pVertexShader,
-	   ppClassInstances, 
-	   NumClassInstances);
+	deviceContext.VSSetShader(
+		pVertexShader,
+		ppClassInstances,
+		NumClassInstances);
 }
 
 void CManager::VSSetConstantBuffers(
-	UINT StartSlot, 
-	UINT NumBuffers, 
+	UINT StartSlot,
+	UINT NumBuffers,
 	ID3D11Buffer * const * ppConstantBuffers)
 {
-   deviceContext.VSSetConstantBuffers(StartSlot, NumBuffers, ppConstantBuffers);
+	deviceContext.VSSetConstantBuffers(StartSlot, NumBuffers, ppConstantBuffers);
 }
 
 void CManager::PSSetShader(
-	ID3D11PixelShader * pPixelShader, 
-	ID3D11ClassInstance * const * ppClassInstances, 
+	ID3D11PixelShader * pPixelShader,
+	ID3D11ClassInstance * const * ppClassInstances,
 	UINT NumClassInstances)
 {
-   deviceContext.PSSetShader(pPixelShader, ppClassInstances, NumClassInstances);
+	deviceContext.PSSetShader(pPixelShader, ppClassInstances, NumClassInstances);
 }
 
 void CManager::PSSetConstantBuffers(
-	UINT StartSlot, 
-	UINT NumBuffers, 
+	UINT StartSlot,
+	UINT NumBuffers,
 	ID3D11Buffer * const * ppConstantBuffers)
 {
-   deviceContext.PSSetConstantBuffers(StartSlot, NumBuffers, ppConstantBuffers);
+	deviceContext.PSSetConstantBuffers(StartSlot, NumBuffers, ppConstantBuffers);
 }
 
 void CManager::PSSetShaderResources(
@@ -344,38 +345,39 @@ void CManager::PSSetShaderResources(
 	UINT NumViews,
 	ID3D11ShaderResourceView * const * ppShaderResourceViews)
 {
-   deviceContext.PSSetShaderResources(StartSlot, NumViews, ppShaderResourceViews);
+	deviceContext.PSSetShaderResources(StartSlot, NumViews, ppShaderResourceViews);
 }
 
 void CManager::PSSetSamplers(
-	UINT StartSlot, 
-	UINT NumSamplers, 
+	UINT StartSlot,
+	UINT NumSamplers,
 	ID3D11SamplerState * const * ppSamplers)
 {
-   deviceContext.PSSetSamplers(StartSlot, NumSamplers, ppSamplers);
+	deviceContext.PSSetSamplers(StartSlot, NumSamplers, ppSamplers);
 }
 
 void CManager::DrawIndexed(
 	UINT IndexCount,
-	UINT StartIndexLocation, 
+	UINT StartIndexLocation,
 	INT BaseVertexLocation)
 {
-   deviceContext.DrawIndexed(IndexCount, StartIndexLocation, BaseVertexLocation);
+	deviceContext.DrawIndexed(IndexCount, StartIndexLocation, BaseVertexLocation);
 }
 
 HRESULT CManager::CreateDeviceAndSwapChain(
-	IDXGIAdapter * pAdapter, 
+	IDXGIAdapter * pAdapter,
 	D3D_DRIVER_TYPE DriverType,
 	HMODULE Software,
-	UINT Flags, 
-	const D3D_FEATURE_LEVEL * pFeatureLevels, 
-	UINT FeatureLevels, 
-	UINT SDKVersion, 
-	const DXGI_SWAP_CHAIN_DESC * pSwapChainDesc, 
+	UINT Flags,
+	const D3D_FEATURE_LEVEL * pFeatureLevels,
+	UINT FeatureLevels,
+	UINT SDKVersion,
+	const DXGI_SWAP_CHAIN_DESC * pSwapChainDesc,
 	IDXGISwapChain ** ppSwapChain,
-	ID3D11Device ** ppDevice, 
-	D3D_FEATURE_LEVEL * pFeatureLevel,
-	ID3D11DeviceContext ** ppImmediateContext)
+	ID3D11Device ** ppDevice,
+	D3D_FEATURE_LEVEL * pFeatureLevel
+	//ID3D11DeviceContext ** ppImmediateContext
+)
 {
 	return D3D11CreateDeviceAndSwapChain(
 		pAdapter,
@@ -389,6 +391,6 @@ HRESULT CManager::CreateDeviceAndSwapChain(
 		ppSwapChain,
 		ppDevice,
 		pFeatureLevel,
-		ppImmediateContext);
+		deviceContext.getDeviceContext());
 
 }
