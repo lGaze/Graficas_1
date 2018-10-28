@@ -164,6 +164,7 @@
     <ClInclude Include="CSwapChain.h" />
     <ClInclude Include="CTexture.h" />
     <ClInclude Include="CVector.h" />
+    <ClInclude Include="Graphics.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,7 @@
 #pragma once
 #include <windows.h>
-#include "Graphics.h"
+#include <d3d11.h>
+#include <d3dcompiler.h>
 
 class CSwapChain
 {
@@ -11,8 +12,8 @@ public:
 	void ReleaseSwapChain();
 	HRESULT GetBuffer(UINT Buffer, REFIID riid, void **ppSurface);
 	HRESULT Present(UINT SyncInterval, UINT Flags);
+	inline IDXGISwapChain ** getSwapChainPointer() { return &m_pSwapChain; };
 
-	inline IDXGISwapChain ** getSwapChain() { return &m_pSwapChain; };
 
 private:
 	IDXGISwapChain * m_pSwapChain = nullptr;

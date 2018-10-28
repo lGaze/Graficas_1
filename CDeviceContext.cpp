@@ -20,10 +20,7 @@ void CDeviceContext::OMSetRenderTargets(
 	ID3D11RenderTargetView * const * ppRenderTargetViews,
 	ID3D11DepthStencilView * pDepthStencilView)
 {
-	m_pImmediateContext->OMSetRenderTargets(
-		NumViews,
-		ppRenderTargetViews, 
-		pDepthStencilView);
+	m_pImmediateContext->OMSetRenderTargets(NumViews, ppRenderTargetViews, pDepthStencilView);
 }
 
 void CDeviceContext::RSSetViewports(
@@ -45,12 +42,7 @@ void CDeviceContext::IASetVertexBuffers(
 	const UINT * pStrides,
 	const UINT * pOffsets)
 {
-	m_pImmediateContext->IASetVertexBuffers(
-		StartSlot, 
-		NumBuffers,
-		ppVertexBuffers,
-		pStrides, 
-		pOffsets);
+	m_pImmediateContext->IASetVertexBuffers(StartSlot, NumBuffers, ppVertexBuffers, pStrides, pOffsets);
 }
 
 void CDeviceContext::IASetIndexBuffer(
@@ -74,13 +66,7 @@ void CDeviceContext::UpdateSubresource(
 	UINT SrcRowPitch,
 	UINT SrcDepthPitch)
 {
-	m_pImmediateContext->UpdateSubresource(
-		pDstResource, 
-		DstSubresource, 
-		pDstBox, 
-		pSrcData,
-		SrcRowPitch,
-		SrcDepthPitch);
+	m_pImmediateContext->UpdateSubresource(pDstResource, DstSubresource, pDstBox, pSrcData, SrcRowPitch, SrcDepthPitch);
 }
 
 void CDeviceContext::ClearRenderTargetView(
@@ -96,11 +82,7 @@ void CDeviceContext::ClearDepthStencilView(
 	FLOAT Depth,
 	UINT8 Stencil)
 {
-	m_pImmediateContext->ClearDepthStencilView(
-		pDepthStencilView, 
-		ClearFlags,
-		Depth,
-		Stencil);
+	m_pImmediateContext->ClearDepthStencilView(pDepthStencilView, ClearFlags, Depth, Stencil);
 }
 
 void CDeviceContext::VSSetShader(
@@ -108,10 +90,7 @@ void CDeviceContext::VSSetShader(
 	ID3D11ClassInstance * const * ppClassInstances,
 	UINT NumClassInstances)
 {
-	m_pImmediateContext->VSSetShader(
-		pVertexShader,
-		ppClassInstances,
-		NumClassInstances);
+	m_pImmediateContext->VSSetShader(pVertexShader, ppClassInstances, NumClassInstances);
 }
 
 void CDeviceContext::VSSetConstantBuffers(
@@ -130,10 +109,7 @@ void CDeviceContext::PSSetShader(
 	ID3D11ClassInstance * const * ppClassInstances,
 	UINT NumClassInstances)
 {
-	m_pImmediateContext->PSSetShader(
-		pPixelShader, 
-		ppClassInstances,
-		NumClassInstances);
+	m_pImmediateContext->PSSetShader(pPixelShader, ppClassInstances, NumClassInstances);
 }
 
 void CDeviceContext::PSSetConstantBuffers(
@@ -141,10 +117,7 @@ void CDeviceContext::PSSetConstantBuffers(
 	UINT NumBuffers,
 	ID3D11Buffer * const * ppConstantBuffers)
 {
-	m_pImmediateContext->PSSetConstantBuffers(
-		StartSlot, 
-		NumBuffers, 
-		ppConstantBuffers);
+	m_pImmediateContext->PSSetConstantBuffers(StartSlot, NumBuffers, ppConstantBuffers);
 }
 
 void CDeviceContext::PSSetShaderResources(
@@ -152,10 +125,7 @@ void CDeviceContext::PSSetShaderResources(
 	UINT NumViews,
 	ID3D11ShaderResourceView * const * ppShaderResourceViews)
 {
-	m_pImmediateContext->PSSetShaderResources(
-		StartSlot,
-		NumViews,
-		ppShaderResourceViews);
+	m_pImmediateContext->PSSetShaderResources(StartSlot, NumViews, ppShaderResourceViews);
 }
 
 void CDeviceContext::PSSetSamplers(
@@ -163,10 +133,7 @@ void CDeviceContext::PSSetSamplers(
 	UINT NumSamplers,
 	ID3D11SamplerState * const * ppSamplers)
 {
-	m_pImmediateContext->PSSetSamplers(
-		StartSlot, 
-		NumSamplers,
-		ppSamplers);
+	m_pImmediateContext->PSSetSamplers(StartSlot, NumSamplers, ppSamplers);
 }
 
 void CDeviceContext::DrawIndexed(

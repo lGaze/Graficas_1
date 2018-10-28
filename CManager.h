@@ -157,21 +157,21 @@ public:
 		INT BaseVertexLocation);
 
 	HRESULT CreateDeviceAndSwapChain(
-		IDXGIAdapter* pAdapter,
-		D3D_DRIVER_TYPE DriverType,
-		HMODULE Software,
+		//IDXGIAdapter* pAdapter,
+		//D3D_DRIVER_TYPE DriverType,
+		//HMODULE Software,
 		UINT Flags,
-		CONST D3D_FEATURE_LEVEL* pFeatureLevels,
-		UINT FeatureLevels,
+		//CONST D3D_FEATURE_LEVEL* pFeatureLevels,
+		//UINT FeatureLevels,
 		UINT SDKVersion,
-		CONST DXGI_SWAP_CHAIN_DESC* pSwapChainDesc,
-		IDXGISwapChain** ppSwapChain,
-		ID3D11Device** ppDevice,
-		D3D_FEATURE_LEVEL* pFeatureLevel
+		CONST DXGI_SWAP_CHAIN_DESC* pSwapChainDesc
+		//IDXGISwapChain** ppSwapChain,
+		//ID3D11Device** ppDevice
+		//D3D_FEATURE_LEVEL* pFeatureLevel
 		//ID3D11DeviceContext** ppImmediateContext
 	);
 
-	inline IDXGISwapChain ** GetSwapChainPointer() { return swapChain.getSwapChain(); };
+	inline D3D_DRIVER_TYPE & GetDriverTypePointer() { return *device.getDriverType(); };
+	inline IDXGISwapChain ** GetSwapChainPointer() { return swapChain.getSwapChainPointer(); };
 	inline ID3D11Device ** GetDevicePointer() { return device.getDevicePointer(); };
-	//inline ID3D11DeviceContext & GetDeviceContextPointer() { return deviceContext.getDeviceContext; };
 };

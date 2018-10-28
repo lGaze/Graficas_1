@@ -1,6 +1,9 @@
 #pragma once
 #include <windows.h>
-#include "Graphics.h"
+#include <d3d11.h>
+#include <d3dcompiler.h>
+#include <D3Dcommon.h>
+
 
 class CDevice
 {
@@ -55,8 +58,31 @@ public:
 		ID3D11SamplerState **ppSamplerState);
 
 	inline ID3D11Device ** getDevicePointer() { return &m_pd3dDevice; };
+	inline D3D_DRIVER_TYPE * getDriverType() { return &m_driverType; };
+	inline D3D_FEATURE_LEVEL * getFeatureLevel() { return &m_featureLevel; };
+
+	D3D_DRIVER_TYPE driverTypes[3] =
+	{
+		D3D_DRIVER_TYPE_HARDWARE,
+		D3D_DRIVER_TYPE_WARP,
+		D3D_DRIVER_TYPE_REFERENCE,
+	};
+
+	UINT numDriverTypes = ARRAYSIZE(driverTypes);
+
+	D3D_FEATURE_LEVEL featureLevels[3] =
+	{
+		D3D_FEATURE_LEVEL_11_0,
+		D3D_FEATURE_LEVEL_10_1,
+		D3D_FEATURE_LEVEL_10_0,
+	};
+	UINT numFeatureLevels = ARRAYSIZE(featureLevels);
 
 private:
-	ID3D11Device * m_pd3dDevice = nullptr;
+	ID3D11Device *		m_pd3dDevice = nullptr;
+	D3D_DRIVER_TYPE		m_driverType = D3D_DRIVER_TYPE_NULL;
+	D3D_FEATURE_LEVEL	m_featureLevel = D3D_FEATURE_LEVEL_11_0;
+
+
 };
 

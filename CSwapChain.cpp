@@ -24,3 +24,4 @@ HRESULT CSwapChain::Present(UINT SyncInterval, UINT Flags)
 {
 	return m_pSwapChain->Present(SyncInterval, Flags);
 }
+
