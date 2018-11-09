@@ -51,16 +51,32 @@ public:
 	void setChannel(char channel, unsigned char info);
 
 	/**
+	 * @brief Overload de la funcion setChanel.
+	 * @param Representa el canal que se esta pidiendo.
+	 * @param Representa la informacion a setear en flotantes.
+	 */
+	void setChannel(char channel, float info);
+
+	/**
 	 * @brief Setea un pixel.
 	 * @param Representa el pixel a setear.
 	 */
 	void setPixel(unsigned char * RGBA);
 
 	/**
+	 * @brief Overload de la funcion setPixel.
+	 * @param representa el pixel en 32f a setear.
+	 */
+	void setPixel(float * RGBA);
+
+	/**
 	 * @brief Setea un color.
 	 * @param Representa el color a setear.
 	 */
 	void setColor(int Color);
+
+
+
 
 private:
 

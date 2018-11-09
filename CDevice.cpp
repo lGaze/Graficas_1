@@ -9,6 +9,20 @@ CDevice::~CDevice()
 {
 }
 
+HRESULT CDevice::Init()
+{
+	HRESULT hr = S_OK;
+
+	deviceFlags = 0;
+#ifdef _DEBUG
+	deviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
+#endif
+
+	sdk = D3D11_SDK_VERSION;
+
+	return hr;
+}
+
 void CDevice::ReleaseDevice()
 {
 	m_pd3dDevice->Release();

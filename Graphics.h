@@ -3,26 +3,6 @@
 #include <d3dx11.h>
 #include <d3dcompiler.h>
 
-UINT createDeviceFlags = 0;
-
-DXGI_SWAP_CHAIN_DESC createSwapChainDesc(UINT Width, UINT Height, HWND hWnd)
-{
-	DXGI_SWAP_CHAIN_DESC sd;
-	ZeroMemory(&sd, sizeof(sd));
-	sd.BufferCount = 1;
-	sd.BufferDesc.Width = Width;
-	sd.BufferDesc.Height = Height;
-	sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	sd.BufferDesc.RefreshRate.Numerator = 60;
-	sd.BufferDesc.RefreshRate.Denominator = 1;
-	sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	sd.OutputWindow = hWnd;
-	sd.SampleDesc.Count = 1;
-	sd.SampleDesc.Quality = 0;
-	sd.Windowed = TRUE;
-
-	return sd;
-}
 
 D3D11_TEXTURE2D_DESC CreateDescDepth(UINT Width, UINT Height)
 {
@@ -89,3 +69,4 @@ D3D11_SAMPLER_DESC CreateSampDesc()
 	sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
 	return sampDesc;
 }
+

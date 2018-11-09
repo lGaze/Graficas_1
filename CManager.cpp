@@ -17,66 +17,6 @@ void CManager::CleanupDevice()
 }
 
 /*
-CTexture * CManager::CreateRenderTargeFromBackBuffer(UINT backBufferIndex)
-{
-	CTexture * texture = new CTexture();
-	HRESULT hr = GetBuffer(
-		backBufferIndex, __uuidof(ID3D11Texture2D),
-		(LPVOID*)&texture->m_pTexure2D);
-	if (FAILED(hr)) { return nullptr; }
-
-	hr = CreateRenderTargetView(
-		texture->m_pTexure2D, NULL, &texture->m_pRenderTargetView);
-	if (FAILED(hr)) { return nullptr; }
-	return texture;
-}
-
-CTexture * CManager::CreateDepthStencil(UINT width, UINT height)
-{
-	CTexture * texture = new CTexture();
-	HRESULT hr;
-	D3D11_TEXTURE2D_DESC descDepth;
-	ZeroMemory(&descDepth, sizeof(descDepth));
-	descDepth.Width = width;
-	descDepth.Height = height;
-	descDepth.MipLevels = 1;
-	descDepth.ArraySize = 1;
-	descDepth.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
-	descDepth.SampleDesc.Count = 1;
-	descDepth.SampleDesc.Quality = 0;
-	descDepth.Usage = D3D11_USAGE_DEFAULT;
-	descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-	descDepth.CPUAccessFlags = 0;
-	descDepth.MiscFlags = 0;
-	CreateTexture2D(&descDepth, NULL, &texture->m_pDepthStencil);
-	if (FAILED(hr))
-		return nullptr;
-
-	D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
-	ZeroMemory(&descDSV, sizeof(descDSV));
-	descDSV.Format = descDepth.Format;
-	descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-	descDSV.Texture2D.MipSlice = 0;
-
-	CreateDepthStencilView(texture->m_pDepthStencil, &descDSV, &texture->m_pDepthStencilView);
-	if (FAILED(hr))
-		return nullptr;
-
-	OMSetRenderTargets(1, &texture->m_pRenderTargetView, texture->m_pDepthStencilView);
-
-	return texture;
-}
-
-CTexture * CManager::CreateTextureFromFile(
-	ID3D11Device * pDevice,
-	LPCWSTR pSrcFile)
-{
-	CTexture * texture = new CTexture();
-	D3DX11CreateShaderResourceViewFromFile(pDevice, pSrcFile, NULL, NULL, &texture->m_pTextureRV, NULL);
-
-}*/
-
-/*
 HRESULT CManager::InitDevice()
 {
 	HRESULT hr = S_OK;
@@ -368,11 +308,11 @@ HRESULT CManager::CreateDeviceAndSwapChain(
 	//IDXGIAdapter * pAdapter,
 	//D3D_DRIVER_TYPE DriverType,
 	//HMODULE Software,
-	UINT Flags,
+	//UINT Flags,
 	//const D3D_FEATURE_LEVEL * pFeatureLevels,
 	//UINT FeatureLevels,
-	UINT SDKVersion,
-	const DXGI_SWAP_CHAIN_DESC * pSwapChainDesc
+	//UINT SDKVersion,
+	//const DXGI_SWAP_CHAIN_DESC * pSwapChainDesc
 	//IDXGISwapChain ** ppSwapChain,
 	//ID3D11Device ** ppDevice
 	//D3D_FEATURE_LEVEL * pFeatureLevel
@@ -389,11 +329,11 @@ HRESULT CManager::CreateDeviceAndSwapChain(
 			NULL,
 			*device.getDriverType(),
 			NULL,
-			Flags,
+			device.deviceFlags,
 			device.featureLevels,
 			device.numFeatureLevels,
-			SDKVersion,
-			pSwapChainDesc,
+			device.sdk,
+			&swapChain.sd,
 			swapChain.getSwapChainPointer(),
 			device.getDevicePointer(),
 			device.getFeatureLevel(),
@@ -404,6 +344,27 @@ HRESULT CManager::CreateDeviceAndSwapChain(
 	}
 	if (FAILED(hr))
 		return hr;
+}
+
+HRESULT CManager::Init(UINT width, UINT height, HWND  g_hWnd)
+{
+	HRESULT hr = S_OK;
+
+	hr = device.Init();
+	if (FAILED(hr))
+		return hr;
+
+	deviceContext.Init();
+
+	hr = swapChain.Init(width, height, g_hWnd);
+	if (FAILED(hr))
+		return hr;
+
+	hr = CreateDeviceAndSwapChain();
+	if (FAILED(hr))
+		return hr;
+
+	return hr;
 }
 
 

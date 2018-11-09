@@ -1,6 +1,7 @@
 #pragma once
 #include "CVector.h"
 #include "CPixel.h"
+#include "CPixel32f.h"
 
 
 class CCanvas

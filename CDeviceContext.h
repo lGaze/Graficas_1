@@ -9,6 +9,8 @@ public:
 	CDeviceContext();
 	~CDeviceContext();
 
+	void Init();
+
 	void ReleaseDeviceContext();
 
 	void OMSetRenderTargets(
@@ -92,6 +94,6 @@ public:
 	inline ID3D11DeviceContext ** getDeviceContext() { return &m_pImmediateContext; };
 
 private:
-	ID3D11DeviceContext * m_pImmediateContext = nullptr;
+	ID3D11DeviceContext * m_pImmediateContext;
 };
 

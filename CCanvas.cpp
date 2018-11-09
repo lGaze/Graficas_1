@@ -3,6 +3,7 @@
 #include "string.h"
 #include <iostream>
 #include "math.h"
+
 using namespace std;
 
 CCanvas::CCanvas()
@@ -18,11 +19,13 @@ CCanvas::~CCanvas()
 
 bool CCanvas::init(int w, int h, int f)
 {
+
 	m_format = f;
 	m_width = w;
 	m_height = h;
 	m_pitch = w;
 	*buffer = new CPixel(m_format)[m_width*m_height];
+	
 	for (int i = 0; i < m_width*m_height; i++)
 	{
 		buffer[i].setChannel('R', '0');

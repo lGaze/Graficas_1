@@ -10,6 +10,11 @@ CDeviceContext::~CDeviceContext()
 {
 }
 
+void CDeviceContext::Init()
+{
+	m_pImmediateContext = nullptr;
+}
+
 void CDeviceContext::ReleaseDeviceContext()
 {
 	m_pImmediateContext->Release();

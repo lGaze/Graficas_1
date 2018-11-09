@@ -8,22 +8,25 @@ enum FORMAT
 	R32G32B32 = 0x06,
 	R32G32 = 0x07,
 	R32 = 0x08,
+
 };
 
-class CPixel32f : public CPixel
+class CPixel32f
 {
 public:
 
-	CPixel32f();
+	CPixel32f(int format);
 	~CPixel32f();
-	unsigned char getChannel(char channel);
-	unsigned char * getPixel();
+	float getChannel(char channel);
+	float * getPixel();
 	//int getColor();
 	void setChannel(char channel, float info);
 	void setPixel(float * RGBA);
 	//void setColor(int Color);
 
 private:
+
+	int m_format;
 	union
 	{
 		float RGBA[4];

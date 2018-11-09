@@ -2,7 +2,7 @@
 #include "CDevice.h"
 #include "CDeviceContext.h"
 #include "CSwapChain.h"
-//#include "CTexture.h"
+
 
 
 class CManager
@@ -18,12 +18,7 @@ public:
 
 	void CleanupDevice();
 
-	/*
-		CTexture * CreateRenderTargeFromBackBuffer(UINT backBufferIndex = 0);
-		CTexture * CreateDepthStencil(UINT width, UINT height);
-		CTexture * CreateTextureFromFile(ID3D11Device * pDevice, LPCWSTR pSrcFile);*/
-
-		//HRESULT InitDevice();
+	//HRESULT InitDevice();
 
 	HRESULT CreateRenderTargetView(
 		ID3D11Resource *pResource,
@@ -160,16 +155,18 @@ public:
 		//IDXGIAdapter* pAdapter,
 		//D3D_DRIVER_TYPE DriverType,
 		//HMODULE Software,
-		UINT Flags,
+		//UINT Flags,
 		//CONST D3D_FEATURE_LEVEL* pFeatureLevels,
 		//UINT FeatureLevels,
-		UINT SDKVersion,
-		CONST DXGI_SWAP_CHAIN_DESC* pSwapChainDesc
+		//UINT SDKVersion,
+		//CONST DXGI_SWAP_CHAIN_DESC* pSwapChainDesc
 		//IDXGISwapChain** ppSwapChain,
 		//ID3D11Device** ppDevice
 		//D3D_FEATURE_LEVEL* pFeatureLevel
 		//ID3D11DeviceContext** ppImmediateContext
 	);
+
+	HRESULT Init(UINT width, UINT height, HWND  g_hWnd);
 
 	inline D3D_DRIVER_TYPE & GetDriverTypePointer() { return *device.getDriverType(); };
 	inline IDXGISwapChain ** GetSwapChainPointer() { return swapChain.getSwapChainPointer(); };
